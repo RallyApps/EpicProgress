@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- Copyright (c) 2012 Rally Software Development Corp. All rights reserved -->
+<html>
+<head>
+  <title>Epic Progress</title>
+  <meta name="Name" content="App: Epic Progress" />
+  <meta name="Version" content="2012.11.22" />
+  <meta name="Vendor" content="Rally Software" />
+
+  <script type="text/javascript" src="/apps/1.32/sdk.js"></script>
+
+  <script type="text/javascript">    
+    function onLoad() {
+        rally.sdk.ui.AppHeader.setHelpTopic("235");
+        rally.sdk.ui.AppHeader.showPageTools(true);
+
+        busySpinner = new rally.sdk.ui.Wait({hideTarget: true});
+        rallyDataSource = new rally.sdk.data.RallyDataSource('__WORKSPACE_OID__',
+                '__PROJECT_OID__',
+                '__PROJECT_SCOPING_UP__',
+                '__PROJECT_SCOPING_DOWN__');
+
+        rallyDataSource.getAllowedAttributeValues("hierarchicalrequirement",
+                "schedulestate",
+                retrieveScheduleStatesAndProceed);
+    }
+
+    rally.addOnLoad(onLoad);
+  </script>
+</head>
+<body>
+<div id="interface">
+    <table>
+        <tr>
+            <td>
+                <div id="releaseList"></div>
+                <br>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="efp_msg"></div>
+<div id="efp_div">
+    <table id="efp_table">
+        <tbody id="efpt_body"></tbody>
+    </table>
+</div>
+<div id="efp_box"></div>
+<div id="legend" class="legend">
+    <table class="legend">
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td> The green bar at the bottom of a story card represents the calculation
+                of the to-dos on tasks for each story when subtracted from the estimates.
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="story_card accepted">&nbsp;</div>
+            </td>
+            <td> Accepted Stories</td>
+        </tr>
+        <tr>
+            <td>
+                <div class="story_card on-track">&nbsp;</div>
+            </td>
+            <td> Stories in Current Iteration</td>
+        </tr>
+        <tr>
+            <td>
+                <div class="story_card">&nbsp;</div>
+            </td>
+            <td> Stories Not Scheduled or Scheduled in the Future</td>
+        </tr>
+        <tr>
+            <td>
+                <div class="story_card blocked">&nbsp;</div>
+            </td>
+            <td> Stories Marked as Blocked or Not Accepted from Past Iterations</td>
+        </tr>
+    </table>
+</div>
+
+<div id="story_tooltip" class="story_tooltip"></div>
+</body>
+</html>
